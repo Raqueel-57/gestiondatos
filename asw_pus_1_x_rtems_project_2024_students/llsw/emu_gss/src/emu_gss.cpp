@@ -71,7 +71,8 @@ void EmuGSS_SendProgrammedTCs() {
 		printf("\n");
 
 //TODO Signal EDP RxTC IRQ vector (18) Bottom Half
-		//CCEPDManager::EDROOMEventIRQ18.SignalFromTask();
+
+		CCEPDManager::EDROOMEventIRQ18.SignalFromTask(); //signal desde un atarea para desperta al bottom half y enrute el TC
 
 		Pr_DelayIn(Pr_Time(0, 20000));
 

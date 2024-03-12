@@ -22,17 +22,18 @@ void SystemDataPool::Init(){
 		sParamCurrentValue[i]=i;
 	};
 
-void PUSPrioTCExecutor::ExecTC(CDTCHandler &tcHandler, CDTMList &tmList,
+void PUSPrioTCExecutor::ExecTC(CDTCHandler &tcHandler, CDTMList &tmList, //estatico, va a entrar siempre que entre un TC prioritaitio, se vuleve a comprar el tipo y el subtipo
 		CDEventList &eventList){
 
 		tcHandler.StartUpExecution();
 		switch (tcHandler.GetType()) {
 		//TODO Complete Execute Prio TCs
-					//case (9):
-						//
-					//  break;
+		//primero centralizo la gestion y luego delego en el archivo puesservice
+					case (9):
+						PUSService9::ExecTC(tcHandler,tmList); //funcion definida en EDROOM, metodo estatico de la clase que implementa el servivio
+					 break;
 					case (17):
-						//PUSService17::ExecTC(tcHandler,tmList);
+						PUSService17::ExecTC(tcHandler,tmList);
 						break;
 					default:
 						break;

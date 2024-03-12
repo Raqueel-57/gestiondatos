@@ -64,7 +64,7 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 
 	TTCAcceptationStatus acceptationStatus = TCAcceptationOK;
 
-	if (!IsCRCValid(tcHandler)) {
+	if (!IsCRCValid(tcHandler)) { //crc valido
 
 		acceptationStatus = TCAcceptationCRCError;
 
@@ -81,19 +81,20 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 		uint8_t type = tcHandler.GetType();
 		uint8_t subtype = tcHandler.GetSubType();
 
-		switch (type) {
+		switch (type) { //chequea el tipo y luego el subtipo, si cumplen aceptamos el TC
 		//TODO TC Acceptance and TC Classification
-//		case (9):
-//
-//			switch (subtype) {
-//
-//			case (129):
-//				tcHandler.SetExecCtrlAsPrioTC();
-//				break;
-//			default:
-//				acceptationStatus = TCAcceptationSubTypeError;
-//			}
-//			break;
+		case (9)://chequeo el tipo si no es ninguno de los dos nos vamos por default y tendremos un eeor
+
+			switch (subtype) {
+
+			case (129)://solo es el subtipo 129
+				tcHandler.SetExecCtrlAsPrioTC(); //handler del TC, ejecuta el TC y lo hace como si ufera prioritario (lo usamos cuando queremos que sea prioritario y avance por la rama)
+				break;
+				//si ponemos :: es un metodo estatico que ejcuta todos los TC prioritarios
+			default:
+				acceptationStatus = TCAcceptationSubTypeError; //sino error
+			}
+			break;
 		case (17):
 			switch (subtype) {
 			case (1):
