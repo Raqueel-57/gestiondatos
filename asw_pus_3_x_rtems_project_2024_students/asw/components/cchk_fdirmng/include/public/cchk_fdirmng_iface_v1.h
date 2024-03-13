@@ -220,7 +220,7 @@ public:
 
 
 		//!Variables
-		CDTMList &VCurrentTMList;
+		CDTMList &VCurrentTMLis;
 		Pr_Time &VNextTimeout;
 
 
@@ -236,7 +236,7 @@ public:
 
 		//!Constructor
 		EDROOM_CTX_Top_0 (CCHK_FDIRMng &act,
-				CDTMList & EDROOMpVarVCurrentTMList,
+				CDTMList & EDROOMpVarVCurrentTMLis,
 				Pr_Time & EDROOMpVarVNextTimeout,
 				CEDROOMPOOLCDTMList & EDROOMpPoolCDTMList );
 
@@ -311,7 +311,7 @@ public:
 		EDROOM_CTX_Top_0::TEDROOMStateID edroomNextState;
 
 		//!Variables
-		CDTMList VCurrentTMList;
+		CDTMList VCurrentTMLis;
 		Pr_Time VNextTimeout;
 
 

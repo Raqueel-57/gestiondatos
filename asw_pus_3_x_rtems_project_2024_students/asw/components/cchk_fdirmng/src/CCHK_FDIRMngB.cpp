@@ -11,7 +11,7 @@
 	// CONSTRUCTORS***********************************************
 
 CCHK_FDIRMng::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(CCHK_FDIRMng &act,
-	 CDTMList & EDROOMpVarVCurrentTMList,
+	 CDTMList & EDROOMpVarVCurrentTMLis,
 	 Pr_Time & EDROOMpVarVNextTimeout,
 	 CEDROOMPOOLCDTMList & EDROOMpPoolCDTMList ):
 
@@ -21,7 +21,7 @@ CCHK_FDIRMng::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(CCHK_FDIRMng &act,
 	HK_FDIRCtrl(EDROOMcomponent.HK_FDIRCtrl),
 	TMChannelCtrl(EDROOMcomponent.TMChannelCtrl),
 	HK_FDIRTimer(EDROOMcomponent.HK_FDIRTimer),
-	VCurrentTMList(EDROOMpVarVCurrentTMList),
+	VCurrentTMLis(EDROOMpVarVCurrentTMLis),
 	VNextTimeout(EDROOMpVarVNextTimeout),
 	EDROOMPoolCDTMList(EDROOMpPoolCDTMList)
 {
@@ -35,7 +35,7 @@ CCHK_FDIRMng::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(EDROOM_CTX_Top_0 &context):
 	HK_FDIRCtrl(context.HK_FDIRCtrl),
 	TMChannelCtrl(context.TMChannelCtrl),
 	HK_FDIRTimer(context.HK_FDIRTimer),
-	VCurrentTMList(context.VCurrentTMList),
+	VCurrentTMLis(context.VCurrentTMLis),
 	VNextTimeout(context.VNextTimeout),
 	EDROOMPoolCDTMList(context.EDROOMPoolCDTMList )
 {
@@ -73,10 +73,9 @@ void	CCHK_FDIRMng::EDROOM_CTX_Top_0::FDoHK_FDIR()
 {
    //Define absolute time
   Pr_Time time;
- 
-VNextTimeout+= Pr_Time(1,0); // Add X sec + Y microsec 
-time=VNextTimeout; 
-PUSService3::DoHK(VCurrentTMList);	
+VNextTimeout+= Pr_Time(1,0); // Add X sec + Y microsec
+time=VNextTimeout;
+PUSService3::DoHK(VCurrentTMList);
    //Program absolute timer 
    HK_FDIRTimer.InformAt( time ); 
 }
@@ -88,12 +87,10 @@ void	CCHK_FDIRMng::EDROOM_CTX_Top_0::FInitHK_FDIR()
 {
    //Define absolute time
   Pr_Time time;
- 
-time.GetTime(); // Get current monotonic time   
-time+=Pr_Time(1,0); // Add X sec + Y microsec    
+time.GetTime(); // Get current monotonic time
+time+=Pr_Time(1,0); // Add X sec + Y microsec
 VNextTimeout=time;
 PUSService3::Init(); //Init PUSService 3
- 
    //Program absolute timer 
    HK_FDIRTimer.InformAt( time ); 
 }
@@ -105,11 +102,8 @@ void	CCHK_FDIRMng::EDROOM_CTX_Top_0::FInvokeTxTMList()
 {
    //Allocate data from pool
   CDTMList * pSTxTM_Data = EDROOMPoolCDTMList.AllocData();
-	
-		// Complete Data 
-	
-	*pSTxTM_Data=VCurrentTMList;    
-	VCurrentTMList.Clear();
+*pSTxTM_Data=VCurrentTMList;
+VCurrentTMList.Clear();
    //Invoke synchronous communication 
    MsgBack=TMChannelCtrl.invoke(STxTM,pSTxTM_Data,&EDROOMPoolCDTMList); 
 }
@@ -124,8 +118,8 @@ void	CCHK_FDIRMng::EDROOM_CTX_Top_0::FExecHK_FDIR_TC()
 	
 		// Data access
 	
-   CDEventList TCExecEventList;  
-   PUS_HK_FDIR_TCExecutor::ExecTC(varSHK_FDIR_TC,VCurrentTMList,TCExecEventList);
+CDEventList TCExecEventList;
+PUS_HK_FDIR_TCExecutor::ExecTC(varSHK_FDIR_TC,VCurrentTMList,TCExecEventList); 
 
 }
 
@@ -162,7 +156,7 @@ CDTMList *	CCHK_FDIRMng::EDROOM_CTX_Top_0::CEDROOMPOOLCDTMList::AllocData()
 CCHK_FDIRMng::EDROOM_SUB_Top_0::EDROOM_SUB_Top_0 (CCHK_FDIRMng&act
 	,CEDROOMMemory *pEDROOMMemory):
 		EDROOM_CTX_Top_0(act,
-			VCurrentTMList,
+			VCurrentTMLis,
 			VNextTimeout,
 			EDROOMPoolCDTMList),
 		EDROOMPoolCDTMList(
