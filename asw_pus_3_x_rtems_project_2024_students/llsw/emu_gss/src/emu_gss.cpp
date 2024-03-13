@@ -34,7 +34,7 @@ void EmuGSS_ShowTM(const struct tm_descriptor *pTMDescriptor) {
 		break;
 
 	case (3):
-		//EmuGSS_ShowServ3TM(pTMDescriptor);
+		EmuGSS_ShowServ3TM(pTMDescriptor);
 		break;
 
 	case (5):
@@ -67,14 +67,10 @@ void EmuGSS_SendProgrammedTCs() {
 				(EmuGSS_TCProgram::sCurrentTCProgram)->GetSubtype());
 
 		printf(EmuGSS_TCProgram::sCurrentTCProgram->GetBrief());
-
 		printf("\n");
 
-//TODO Signal EDP RxTC IRQ vector (18) Bottom Half
-
+		//Signal EDP RxTC IRQ vector (18) Bottom Half
 		CCEPDManager::EDROOMEventIRQ18.SignalFromTask();
-
-		//signal desde un atarea para desperta al bottom half y enrute el TC
 
 		Pr_DelayIn(Pr_Time(0, 20000));
 

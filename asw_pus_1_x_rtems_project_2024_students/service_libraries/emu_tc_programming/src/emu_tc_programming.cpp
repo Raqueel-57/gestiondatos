@@ -10,20 +10,23 @@
 #include <public/emu_gss_v1.h>
 
 
-
+//el sw esta haciendo viendo su trabajo, enviamos un TC y comprobaos la respuesta. Va a aprecer directamente en TSIM
+//si el TC se acepta esperamos la TM(1,1)
 #define FT_SOLO_EPD_ICU_SERV_17_0010
 #define FT_SOLO_EPD_ICU_SERV_9_0020
 
 
 //TODO
-//#define FT_SOLO_EPD_ICU_SERV_1_REJECTED_TC_0030
-
+#define FT_SOLO_EPD_ICU_SERV_1_REJECTED_TC_0030
+//
 
 
 #ifdef FT_SOLO_EPD_ICU_SERV_17_0010
 
-EmuGSS_TCProgram17_1 prog_FT_0010_step_0(UNITIME_AFTER_POWER_ON + 6,
+EmuGSS_TCProgram17_1 prog_FT_0010_step_0(UNITIME_AFTER_POWER_ON + 6, //objeto y parametros del constructor
 					"FT_SOLO_EPD_ICU_SERV_17_0010 step 0, Connection Test");
+//tiempo de liberacion del TC (6segundos despues de que arranque)
+//mensaje que me dice que TC estoy enviando
 
 
 #endif
@@ -39,7 +42,7 @@ EmuGSS_TCProgram9_129 prog_FT_0020_step_0(UNITIME_AFTER_POWER_ON + 10 ,
 
 
 #endif
-/*
+
 #ifdef FT_SOLO_EPD_ICU_SERV_1_REJECTED_TC_0030
 
 
@@ -49,5 +52,5 @@ EmuGSS_TCProgram17_3 prog_FT_0030_step_0(FT_SOLO_EPD_ICU_SERV_1_0030_TIME,
 		"FT_SOLO_EPD_ICU_SERV_1_0030 step 0, Rejected TC",0xFF);
 
 #endif
-*/
+
 
