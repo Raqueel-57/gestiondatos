@@ -14,7 +14,6 @@ CCEPDManager::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(CCEPDManager &act,
 	 CDEventList & EDROOMpVarVCurrentEvList,
 	 CDTCHandler & EDROOMpVarVCurrentTC,
 	 CDTMList & EDROOMpVarVCurrentTMList,
-	 CEDROOMPOOLCDTMList & EDROOMpPoolCDTMList,
 	 CEDROOMPOOLCDTCHandler & EDROOMpPoolCDTCHandler ):
 
 	EDROOMcomponent(act),
@@ -26,7 +25,6 @@ CCEPDManager::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(CCEPDManager &act,
 	VCurrentEvList(EDROOMpVarVCurrentEvList),
 	VCurrentTC(EDROOMpVarVCurrentTC),
 	VCurrentTMList(EDROOMpVarVCurrentTMList),
-	EDROOMPoolCDTMList(EDROOMpPoolCDTMList),
 	EDROOMPoolCDTCHandler(EDROOMpPoolCDTCHandler)
 {
 }
@@ -42,7 +40,6 @@ CCEPDManager::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(EDROOM_CTX_Top_0 &context):
 	VCurrentEvList(context.VCurrentEvList),
 	VCurrentTC(context.VCurrentTC),
 	VCurrentTMList(context.VCurrentTMList),
-	EDROOMPoolCDTMList(context.EDROOMPoolCDTMList ),
 	EDROOMPoolCDTCHandler(context.EDROOMPoolCDTCHandler )
 {
 
@@ -175,17 +172,7 @@ return VCurrentTC.IsRebootTC();
 
 
 
-bool	CCEPDManager::EDROOM_CTX_Top_0::GFwdToHK_FDIR()
-
-{
-
-return VCurrentTC.IsHK_FDIRTC();
-
-}
-
-
-
-void	CCEPDManager::EDROOM_CTX_Top_0::FFwdHK_FDIRTC()
+void	CCEPDManager::EDROOM_CTX_Top_0::FFwdHK_FDIRTC()()
 
 {
    //Allocate data from pool
@@ -193,28 +180,24 @@ void	CCEPDManager::EDROOM_CTX_Top_0::FFwdHK_FDIRTC()
 	
 		// Complete Data 
 	
-*pSHK_FDIR_TC_Data=VCurrentTC;   
+*pSHK_FDIR_TC_Data=VCurrentTC; 
    //Send message 
    HK_FDIRCtrl.send(SHK_FDIR_TC,pSHK_FDIR_TC_Data,&EDROOMPoolCDTCHandler); 
 }
 
 
 
+bool	CCEPDManager::EDROOM_CTX_Top_0::GFwdToHK_FDIR()
+
+{
+
+return VCurrentTC.IsHK_FDIRTC();
+
+}
+
+
+
 	//********************************** Pools *************************************
-
-	//CEDROOMPOOLCDTMList
-
-CCEPDManager::EDROOM_CTX_Top_0::CEDROOMPOOLCDTMList::CEDROOMPOOLCDTMList(
-			TEDROOMUInt32 elemCount,CDTMList* pMem,bool * pMemMarks):
-				CEDROOMProtectedMemoryPool(elemCount, pMem, pMemMarks,
-					sizeof(CDTMList))
-{
-}
-
-CDTMList *	CCEPDManager::EDROOM_CTX_Top_0::CEDROOMPOOLCDTMList::AllocData()
-{
-	return(CDTMList*)CEDROOMProtectedMemoryPool::AllocData();
-}
 
 	//CEDROOMPOOLCDTCHandler
 
@@ -248,11 +231,7 @@ CCEPDManager::EDROOM_SUB_Top_0::EDROOM_SUB_Top_0 (CCEPDManager&act
 			VCurrentEvList,
 			VCurrentTC,
 			VCurrentTMList,
-			EDROOMPoolCDTMList,
 			EDROOMPoolCDTCHandler),
-		EDROOMPoolCDTMList(
-			10, pEDROOMMemory->poolCDTMList,
-			pEDROOMMemory->poolMarkCDTMList),
 		EDROOMPoolCDTCHandler(
 			10, pEDROOMMemory->poolCDTCHandler,
 			pEDROOMMemory->poolMarkCDTCHandler)
