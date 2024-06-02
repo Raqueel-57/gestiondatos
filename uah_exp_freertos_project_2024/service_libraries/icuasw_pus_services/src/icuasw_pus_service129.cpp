@@ -20,8 +20,6 @@ float PUSService129::sCVy = 0;
 //It is not used in Guindance Mode
 float PUSService129::sCVz = 0;
 
-//estoy de prueeeebaaaa
-
 float PUSService129::sKpx = 0.1;
 float PUSService129::sKpy = 0.1;
 float PUSService129::sKpz = 0.1;
