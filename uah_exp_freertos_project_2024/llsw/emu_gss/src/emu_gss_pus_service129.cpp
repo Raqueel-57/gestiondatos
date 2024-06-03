@@ -55,39 +55,5 @@ void EmuGSS_TCProgram129_2::BuildTCAppData(tc_descriptor_t &tc_descriptor){
 
 }
 
-/*
-void EmuGSS_ShowServ20TM(const struct tm_descriptor *pTMDescriptor) {
 
-	GSSServ20TMHandler serv20TMHandler(pTMDescriptor->p_tm_bytes);
-	serv20TMHandler.ShowTM();
-
-}
-
-
-
-GSSServ20TMHandler::GSSServ20TMHandler(const uint8_t *pTMBytes) :
-		GSSTMHandler(pTMBytes) {
-
-}
-
-void GSSServ20TMHandler::ShowTM(){
-
-	switch (mDFHeader.subtype) {
-	case (2):
-		ShowTM_20_2();
-		break;
-
-	}
-}
-
-void GSSServ20TMHandler::ShowTM_20_2(){
-
-	uint16_t pid= GetNextUInt16AppDataField();
-	uint16_t pid_value= GetNextUInt16AppDataField();
-
-	printf(" PID %d value = %d \n",pid,pid_value);
-
-
-}
-*/
 
