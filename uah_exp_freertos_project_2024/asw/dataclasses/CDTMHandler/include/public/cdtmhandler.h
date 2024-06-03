@@ -26,7 +26,6 @@ class CDTMHandler{
 	friend class PUSService20;
 	friend class PUSService128;
 	friend class PUSService129;
-
 private:
 
 

@@ -82,7 +82,6 @@ PUSService3::DoHK(VCurrentTMList);
 PUSService12::DoMonitoring(eventList);
 PUSService5::BuildEventListTMs(eventList, VCurrentTMList);
 PUSService19::ManageEventActions(eventList);
- 
    //Program absolute timer 
    HK_FDIRTimer.InformAt( time ); 
 }
