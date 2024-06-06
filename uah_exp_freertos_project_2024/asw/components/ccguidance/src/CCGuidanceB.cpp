@@ -74,11 +74,16 @@ void	CCGuidance::EDROOM_CTX_Top_0::FDoGuidance()
    //Define absolute time
   Pr_Time time;
 //creamos un algoritmo con un periodo de 100 ms
+<<<<<<< HEAD
 
 VNextTimeout+= Pr_Time(0,100000); // Add X sec + Y microsec
+=======
+ 
+VNextTimeout+= Pr_Time(0,100000); // Add X sec + Y microsec 
+>>>>>>> branch 'master' of https://github.com/Raqueel-57/gestiondatos
 time=VNextTimeout; 
  
-
+ 
 //Hacemos el control periodico de la funcion definida en GuidanceControl
 PUSService129::GuidanceControl();
  
@@ -113,12 +118,17 @@ void	CCGuidance::EDROOM_CTX_Top_0::FInitGuidance()
    //Define absolute time
   Pr_Time time;
 //hacemos el control periodico de 100 ms
-
+ 
 time.GetTime(); // Get current monotonic time   
+<<<<<<< HEAD
 
 time+=Pr_Time(0,100000); // Add X sec + Y microsec
+=======
+ 
+time+=Pr_Time(0,100); // Add X sec + Y microsec    
+>>>>>>> branch 'master' of https://github.com/Raqueel-57/gestiondatos
 VNextTimeout=time;
-
+ 
 //definimos el init
 
 PUSService129::Init(); //Init PUSService 129
