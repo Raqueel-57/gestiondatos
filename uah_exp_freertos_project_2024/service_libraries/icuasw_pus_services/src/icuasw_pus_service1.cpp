@@ -154,6 +154,7 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 				acceptationStatus = TCAcceptationSubTypeError;
 			}
 			break;
+
 		case (12):
 			switch (subtype) {
 			case (1):
@@ -172,6 +173,7 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 				acceptationStatus = TCAcceptationSubTypeError;
 			}
 			break;
+
 		case (19):
 			switch (subtype) {
 			case (1):
@@ -210,6 +212,7 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 				acceptationStatus = TCAcceptationSubTypeError;
 			}
 			break;
+
 		case (128):
 			switch (subtype) {
 			case (1):
@@ -218,273 +221,274 @@ void PUSService1::TryTCAcceptation(CDTCHandler &tcHandler) {
 				break;
 
 			default:
+				//TC is not accepted
 				acceptationStatus = TCAcceptationSubTypeError;
 			}
 			break;
-		default:
-			//TC is not accepted
-			acceptationStatus = TCAcceptationTypeError;
-			break;
 
 		case (129):
-				switch(subtype) {
-				case(1) :
+			switch (subtype) {
+			case (1):
 				//TC Classified as Guidance (129.1)
 				tcHandler.SetExecCtrlAsGuidance_TC();
 				break;
-				case(2) :
+			case (2):
 				//TC Classified as Guidance (129.2)
 				tcHandler.SetExecCtrlAsGuidance_TC();
 				break;
 
 			default:
 				acceptationStatus = TCAcceptationSubTypeError;
-				}
+
+			}
 			break;
+
 		default:
-				//TC is not accepted
-				acceptationStatus = TCAcceptationTypeError;
-				break;
+			//TC is not accepted
+			acceptationStatus = TCAcceptationTypeError;
 
 		}
-	}
 
+	}
 	tcHandler.SetAcceptationStatus(acceptationStatus);
 
 }
 
+
+
+
 void PUSService1::CompleteTCRejection(CDTCHandler &tcHandler) {
 
-	tcHandler.FreeTCDescriptor();
+tcHandler.FreeTCDescriptor();
 
 }
 
 void PUSService1::BuildTM_1_1(CDTCHandler &tcHandler, CDTMList &tmList) {
 
-	CDTMHandler tmHandler(1, 1);
+CDTMHandler tmHandler(1, 1);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_2(CDTCHandler &tcHandler, CDTMList &tmList) {
 
-	TTCAcceptationStatus acceptationStatus = tcHandler.GetAcceptationStatus();
-	CDTMHandler tmHandler(1, 2);
+TTCAcceptationStatus acceptationStatus = tcHandler.GetAcceptationStatus();
+CDTMHandler tmHandler(1, 2);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
 
-	switch (acceptationStatus) {
+switch (acceptationStatus) {
 
-	case (TCAcceptationCRCError):
+case (TCAcceptationCRCError):
 
-		tmHandler.SetUInt8AppDataField(TM_1_2_CRC_ERROR_CODE);
+	tmHandler.SetUInt8AppDataField(TM_1_2_CRC_ERROR_CODE);
 
-		tmHandler.SetUInt16AppDataField(tcHandler.GetPacketErrorCtrl());
-		tmHandler.SetUInt16AppDataField(tcHandler.GetCalculatedCRC());
+	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketErrorCtrl());
+	tmHandler.SetUInt16AppDataField(tcHandler.GetCalculatedCRC());
 
-		break;
+	break;
 
-	case (TCAcceptationAPIDError):
+case (TCAcceptationAPIDError):
 
-		tmHandler.SetUInt8AppDataField(TM_1_2_APID_NOT_VALID_ERROR_CODE);
+	tmHandler.SetUInt8AppDataField(TM_1_2_APID_NOT_VALID_ERROR_CODE);
 
-		break;
+	break;
 
-	case (TCAcceptationSourceIDError):
+case (TCAcceptationSourceIDError):
 
-		tmHandler.SetUInt8AppDataField(
-		TM_1_2_SOURCE_ID_NOT_VALID_ERROR_CODE);
-		tmHandler.SetUInt8AppDataField(tcHandler.GetSourceID());
+	tmHandler.SetUInt8AppDataField(
+	TM_1_2_SOURCE_ID_NOT_VALID_ERROR_CODE);
+	tmHandler.SetUInt8AppDataField(tcHandler.GetSourceID());
 
-		break;
+	break;
 
-	case (TCAcceptationTypeError):
+case (TCAcceptationTypeError):
 
-		tmHandler.SetUInt8AppDataField(TM_1_2_TYPE_NOT_VALID_ERROR_CODE);
+	tmHandler.SetUInt8AppDataField(TM_1_2_TYPE_NOT_VALID_ERROR_CODE);
 
-		break;
+	break;
 
-	case (TCAcceptationSubTypeError):
+case (TCAcceptationSubTypeError):
 
-		tmHandler.SetUInt8AppDataField(TM_1_2_SUBTYPE_NOT_VALID_ERROR_CODE);
+	tmHandler.SetUInt8AppDataField(TM_1_2_SUBTYPE_NOT_VALID_ERROR_CODE);
 
-		break;
+	break;
 
-	default:
+default:
 
-		break;
+	break;
 
-	}
+}
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_7(CDTCHandler &tcHandler, CDTMList &tmList) {
 
-	CDTMHandler tmHandler(1, 7);
+CDTMHandler tmHandler(1, 7);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_3_X_SIDNotValid(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t SID) {
+	CDTMList &tmList, uint16_t SID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_3_X_INVALID_SID);
-	tmHandler.SetUInt16AppDataField(SID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_3_X_INVALID_SID);
+tmHandler.SetUInt16AppDataField(SID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_20_X_PIDNotValid(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t PID) {
+	CDTMList &tmList, uint16_t PID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_20_X_INVALID_PID);
-	tmHandler.SetUInt16AppDataField(PID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_20_X_INVALID_PID);
+tmHandler.SetUInt16AppDataField(PID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_5_X_RIDUnknown(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t RID) {
+	CDTMList &tmList, uint16_t RID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_5_X_UNKNOWN_RID);
-	tmHandler.SetUInt16AppDataField(RID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_5_X_UNKNOWN_RID);
+tmHandler.SetUInt16AppDataField(RID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 }
 
 void PUSService1::BuildTM_1_8_TC_12_X_PMONIDUndefined(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t PMONID) {
-	CDTMHandler tmHandler(1, 8);
+	CDTMList &tmList, uint16_t PMONID) {
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_PMONID_UNDEFINED);
-	tmHandler.SetUInt16AppDataField(PMONID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_PMONID_UNDEFINED);
+tmHandler.SetUInt16AppDataField(PMONID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_12_X_PMONIDDefined(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t PMONID) {
+	CDTMList &tmList, uint16_t PMONID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_PMONID_DEFINED);
-	tmHandler.SetUInt16AppDataField(PMONID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_PMONID_DEFINED);
+tmHandler.SetUInt16AppDataField(PMONID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_12_X_PMONIDNotValid(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t PMONID) {
+	CDTMList &tmList, uint16_t PMONID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_INVALID_PMONID);
-	tmHandler.SetUInt16AppDataField(PMONID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_12_X_INVALID_PMONID);
+tmHandler.SetUInt16AppDataField(PMONID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_19_X_EvActionEnabled(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t EvID) {
+	CDTMList &tmList, uint16_t EvID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_X_EV_ACTION_IS_ENABLED);
-	tmHandler.SetUInt16AppDataField(EvID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_X_EV_ACTION_IS_ENABLED);
+tmHandler.SetUInt16AppDataField(EvID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_19_1_MaxEvActions(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t EvID) {
+	CDTMList &tmList, uint16_t EvID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_1_MAX_EV_ACTIONS_REACHED);
-	tmHandler.SetUInt16AppDataField(EvID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_1_MAX_EV_ACTIONS_REACHED);
+tmHandler.SetUInt16AppDataField(EvID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_19_1_EvActionRejected(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t EvID) {
+	CDTMList &tmList, uint16_t EvID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_1_EV_ACTION_REJECTED);
-	tmHandler.SetUInt16AppDataField(EvID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_1_EV_ACTION_REJECTED);
+tmHandler.SetUInt16AppDataField(EvID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_19_X_EvActionNotDefined(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint16_t EvID) {
+	CDTMList &tmList, uint16_t EvID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_X_EV_ACTION_NOT_DEFINED);
-	tmHandler.SetUInt16AppDataField(EvID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_19_X_EV_ACTION_NOT_DEFINED);
+tmHandler.SetUInt16AppDataField(EvID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 
 void PUSService1::BuildTM_1_8_TC_2_X_DeviceNotValid(CDTCHandler &tcHandler,
-		CDTMList &tmList, uint8_t devID) {
+	CDTMList &tmList, uint8_t devID) {
 
-	CDTMHandler tmHandler(1, 8);
+CDTMHandler tmHandler(1, 8);
 
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
-	tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
-	tmHandler.SetUInt8AppDataField(TM_1_8_TC_2_X_DEVICE_NOT_VALID);
-	tmHandler.SetUInt8AppDataField(devID);
+tmHandler.SetUInt16AppDataField(tcHandler.GetPacketID());
+tmHandler.SetUInt16AppDataField(tcHandler.GetPackSeqCtrl());
+tmHandler.SetUInt8AppDataField(TM_1_8_TC_2_X_DEVICE_NOT_VALID);
+tmHandler.SetUInt8AppDataField(devID);
 
-	tmList.AddTM(tmHandler.CloseTM());
+tmList.AddTM(tmHandler.CloseTM());
 
 }
 

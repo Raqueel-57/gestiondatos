@@ -56,18 +56,14 @@ void PUSService129::Exec129_1TC(CDTCHandler &tcHandler, CDTMList &tmList) {
 
 	//TODO
 	//Valor de la nueva velocidad
-		uint16_t Vx_Value=tcHandler.GetNextFloat();
-		uint16_t Vy_Value = tcHandler.GetNextFloat();
+	//ponemos el valor que vamos a querer controlar con el servicio 129
+		 float Vx_Value=tcHandler.GetNextFloat();
+		float Vy_Value = tcHandler.GetNextFloat();
 		sCVx= Vx_Value;
 		sCVy= Vy_Value;
 
-		uint16_t PID1=5;
-		uint16_t PID2=6;
+		PUSService1::BuildTM_1_7(tcHandler, tmList);
 
-		SystemDataPool::sParamCurrentValue[PID1]=Vx_Value;
-		PUSService1::BuildTM_1_7(tcHandler, tmList);
-		SystemDataPool::sParamCurrentValue[PID2]=Vy_Value;
-		PUSService1::BuildTM_1_7(tcHandler, tmList);
 
 
 
@@ -77,19 +73,15 @@ void PUSService129::Exec129_2TC(CDTCHandler &tcHandler, CDTMList &tmList) {
 
 	//TODO
 	//Nuevos valores de las constantes de proporcionalidad
-		uint16_t Kx_Value=tcHandler.GetNextFloat();
-		uint16_t Ky_Value = tcHandler.GetNextFloat();
+		float Kx_Value=tcHandler.GetNextFloat();
+		float Ky_Value = tcHandler.GetNextFloat();
 
 		sKpx = Kx_Value;
 		sKpy = Ky_Value;
 
-		uint16_t PID1=7;
-		uint16_t PID2=8;
 
-		SystemDataPool::sParamCurrentValue[PID1]=Kx_Value;
 		PUSService1::BuildTM_1_7(tcHandler, tmList);
-		SystemDataPool::sParamCurrentValue[PID2]=Ky_Value;
-		PUSService1::BuildTM_1_7(tcHandler, tmList);
+
 
 }
 
