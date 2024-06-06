@@ -15,6 +15,12 @@
 #include <public/cdtchandler_iface_v1.h>
 
 
+//******************************************************************************
+// Required software interfaces
+
+#include <public/icuasw_pus_services_ifaces_v1.h>
+
+
 /**
  * \class   CCGuidance
  *
